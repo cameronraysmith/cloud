@@ -1,0 +1,9 @@
+# Edit the variables below to your use case,
+# rename this file to "terraform.tfvars"
+# and place it in the directory where you
+# will be running `terraform` commands
+project = "<PROJECT NAME>"
+location = "<E.G. us-east1-a>"
+region = "<E.G. us-central1>"
+cluster_name = "<CLUSTER NAME>"
+cluster_service_account_name =  "<CLUSTER SERVICE ACCOUNT NAME>"

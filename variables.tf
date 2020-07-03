@@ -18,6 +18,21 @@ variable "region" {
   type        = string
 }
 
+variable "jupyterhub_fqdn" {
+  description = "Fully qualified domain name for hosting jupyterhub"
+  type        = string
+}
+
+variable "cloudflare_api_key" {
+  description = "API key for setting DNS records on cloudflare via external-dns"
+  type        = string
+}
+
+variable "cloudflare_email" {
+  description = "Email address associated with cloudflare account"
+  type        = string
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.

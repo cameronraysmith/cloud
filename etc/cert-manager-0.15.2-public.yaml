@@ -1,0 +1,19 @@
+# cert-manager (see in ../main.tf)
+# note that:
+# 
+#     cert-manager-0.15.2.yaml
+# 
+# has been patched according to the following
+#
+# $ wget https://github.com/jetstack/cert-manager/releases/download/v0.15.2/cert-manager.yaml
+# (with updated version)
+# see https://cert-manager.io/docs/usage/ingress/#optional-configuration
+# 
+# add:
+#  
+#       - --default-issuer-name=letsencrypt-prod
+#       - --default-issuer-kind=ClusterIssuer
+#       - --default-issuer-group=cert-manager.io
+# 
+# to the # Source: cert-manager/templates/deployment.yaml section of 
+# the downloaded cert-manager.yaml which has the container arguments

@@ -1,0 +1,8 @@
+domainFilters: [<DOMAINS FOR DNS>]
+rbac:
+  create: true
+txtOwnerId: lab-gcp
+provider: cloudflare
+cloudflare:
+  apiKey: <API KEY> 
+  email: <EMAIL ADDRESS ASSOCIATED WITH CLOUDFLARE ACCOUNT>

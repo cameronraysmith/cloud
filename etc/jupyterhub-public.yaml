@@ -1,0 +1,25 @@
+proxy:
+  secretToken: 
+    <JUPYTERHUB TOKEN>
+singleuser:
+  defaultUrl: "/lab"
+auth:
+  type: custom
+  admin:
+    users:
+      - admin
+  custom:
+    className: "firstuseauthenticator.FirstUseAuthenticator"
+    config:
+      create_users: False
+ingress:
+  enabled: true
+  hosts:
+    - <DOMAIN FOR HOSTING JUPYTERHUB>
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+  tls:
+    - hosts:
+        - <DOMAIN FOR HOSTING JUPYTERHUB> 
+      secretName: jupyterhub-ingress-tls      
