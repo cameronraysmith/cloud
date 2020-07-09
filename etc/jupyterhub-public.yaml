@@ -3,15 +3,27 @@ proxy:
     <JUPYTERHUB TOKEN>
 singleuser:
   defaultUrl: "/lab"
+  image:
+    name: <DOCKER IMAGE NAME>
+    tag: <DOCKER IMAGE TAG>
+  extraEnv:
+    JUPYTERLAB_DIR: "/usr/share/jupyter/lab"
+  uid: 1000
+  cmd: jupyterhub-singleuser
+  lifecycle_hooks:
+    postStart:
+      exec:
+        command: ["rsync", "-rlgoD", "/tmp/homedir/", "/home/jovyan/"] 
 auth:
-  type: custom
-  admin:
-    users:
-      - admin
-  custom:
-    className: "firstuseauthenticator.FirstUseAuthenticator"
-    config:
-      create_users: False
+  type: github
+  github:
+    clientId: <GITHUB CLIENT ID>
+    clientSecret: <GITHUB CLIENT SECRET>
+    callbackUrl: "https://<DOMAIN FOR HOSTING JUPYTERHUB>/hub/oauth_callback"
+    orgWhitelist:
+      - <GITHUB ORGANIZATION NAME FOR AUTHENTICATION>
+  scopes:
+    - "read:user"
 ingress:
   enabled: true
   hosts:
@@ -22,4 +34,57 @@ ingress:
   tls:
     - hosts:
         - <DOMAIN FOR HOSTING JUPYTERHUB> 
-      secretName: jupyterhub-ingress-tls      
+      secretName: jupyterhub-ingress-tls
+
+#----multiple profiles with jupyter docker stacks--------#
+#
+# singleuser:
+#   defaultUrl: "/lab"
+#   image:
+#     name: jupyter/minimal-notebook
+#     tag: 5197709e9f23
+#   extraEnv:
+#     GRANT_SUDO: "yes"
+#     NOTEBOOK_ARGS: "--allow-root"
+#   uid: 0
+#   cmd: start-singleuser.sh
+#   profileList:
+#     - display_name: "Custom environment"
+#       description: "Arch linux base with Python, R, Julia, and Maxima kernels"
+#       extraEnv:
+#         JUPYTERLAB_DIR: "/usr/share/jupyter/lab"
+#       kubespawner_override:
+#         image: <CUSTOM DOCKER IMAGE NAME>:<DOCKER IMAGE TAG>
+#         uid: 1000
+#         cmd: jupyterhub-singleuser
+#         lifecycle_hooks:
+#           postStart:
+#             exec:
+#               command: ["rsync", "-rlgoD", "/tmp/homedir/", "/home/jovyan/"]    
+#     - display_name: "Jupyter Docker Stacks: Minimal notebook environment"
+#       description: "Default environment with Python kernel only"
+#       default: true
+#       kubespawner_override:
+#         lifecycle_hooks:
+#           postStart:
+#             exec:
+#               command: ["rm", "-fr", ".local/share/jupyter/kernels"]       
+#     - display_name: "Jupyter Docker Stacks: Datascience notebook environment"
+#       description: "Environment with Python, R, and Julia kernels"
+#       kubespawner_override:
+#         image: jupyter/datascience-notebook:5197709e9f23
+#         lifecycle_hooks:
+#           postStart:
+#             exec:
+#               command: ["rm", "-fr", ".local/share/jupyter/kernels"]
+
+#----first user-based authentication-------------------#
+# auth:
+#   type: custom
+#   admin:
+#     users:
+#       - admin
+#   custom:
+#     className: "firstuseauthenticator.FirstUseAuthenticator"
+#     config:
+#       create_users: False
