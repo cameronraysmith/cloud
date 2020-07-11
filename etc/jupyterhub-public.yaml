@@ -8,6 +8,7 @@ singleuser:
     tag: <DOCKER IMAGE TAG>
   extraEnv:
     JUPYTERLAB_DIR: "/usr/share/jupyter/lab"
+    SHELL: "/bin/zsh"
   uid: 1000
   cmd: jupyterhub-singleuser
   lifecycle_hooks:
